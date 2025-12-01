@@ -50,6 +50,17 @@ def generar_excel_desde_texto(texto_whatsapp, fecha_inicio_str, project_root_pat
     datos_limpios = []
     for linea in texto_whatsapp.strip().split('\n'):
         linea = linea.strip()
+
+        # --- Lógica de limpieza con split() ---
+        # Dividimos la línea por el primer ':' que encuentre.
+        # Usamos rsplit para dividir desde la derecha, encontrando el ':' que separa
+        # el remitente del mensaje.
+        partes = linea.rsplit(': ', 1)
+
+        # Si la división generó dos partes, asumimos que tenía un prefijo
+        # Nos quedamos con la segunda parte (el bloque par) y la limpiamos.
+        linea = partes[-1].strip()
+
         if not linea.lower().startswith(('lunes', 'martes', 'miercoles', 'miércoles', 'jueves', 'viernes', 'sabado', 'sábado', 'domingo')):
             continue
 
